@@ -3,12 +3,22 @@
     "name": "Ninja Game",
     "version": "1.0",
     "description": "Catch the ninja!",
+    "icons": {
+        "16": "./src/assets/Ninja-16.png",
+        "32": "./src/assets/Ninja-32.png",
+        "48": "./src/assets/Ninja-48.png",
+        "128": "./src/assets/Ninja-128.png"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    },
     "content_scripts": [
         {
-          "matches": ["https://www.google.com/"],
-          "js": ["./src/main.js"]
+          "matches": ["<all_urls>"],
+          "js": ["src/content.js"]
         }
-      ]
+      ],
+    "permissions": ["scripting", "activeTab"]
 }
 
 

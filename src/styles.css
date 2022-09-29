@@ -1,9 +1,10 @@
 body {
-    width: 250px;
+    width: 285px;
     height: 225px;
     border-radius: 8px;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     background: #2D2926FF;
     background-image: radial-gradient(rgb(113, 104, 97) #2D2926FF);

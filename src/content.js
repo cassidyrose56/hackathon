@@ -2,55 +2,115 @@ const startButton = document.createElement('button');
 startButton.setAttribute('id', 'startButton')
 document.querySelector('body').appendChild(startButton);
 startButton.innerHTML = "Start game!"
-console.log(startButton);
 
-startButton.addEventListener("click", () => {
-  chrome.tabs.query({active: true}, function(tabs) {
+
+// startButton.addEventListener("click", () => {
+//   chrome.tabs.query({active: true}, function(tabs) {
+//     var tab = tabs[0];
+//     if (tab) {
+//         chrome.scripting.executeScript(
+//             {
+//                 target: {tabId: tab.id},
+//                 func: populateNinja
+//             }
+//         )
+//     } else {
+//         alert("nothing active")
+//     }
+//   })
+// });
+// ------ testin---------
+let iterationCount = 0;
+let previousVal = "";
+
+startButton.addEventListener('click', () => {
+    chrome.tabs.query({active: true}, function(tabs) { // Array of h1's from webpage
     var tab = tabs[0];
     if (tab) {
         chrome.scripting.executeScript(
             {
                 target: {tabId: tab.id},
-                func: populateNinja
+                func: getH1sArr,
+                args: [iterationCount, previousVal]
             }
         )
     } else {
         alert("nothing active")
     }
-  })
-});
+  });
+})
+
+function populateNinja(array) {
+    console.log(array);
+    if (!array[iterationCount]) {
+        return;
+    }
+    const ninja = document.createElement('img');
+    ninja.setAttribute('id', 'ninja');
+    ninja.setAttribute('src', "https://i.imgur.com/brxsybV.jpg");
+    document.querySelector('body').appendChild(ninja);
+
+
+    function getRandom(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+    const arrayLength = array.length;
+    iterationCount = getRandom(0, arrayLength - 1);
+    console.log(getRandom(0, arrayLength - 20))
+    console.log(iterationCount)
+    
+
+    const parent = array[iterationCount].parentNode;
+    previousVal = array[iterationCount];
+    parent.replaceChild(document.getElementById('ninja'), array[iterationCount]);
+    //parent.removeChild(array[iterationCount]);
+}
+
+function getH1sArr() {
+    populateNinja(document.querySelectorAll('li'));
+}
+
+
+
+
+
+
+
+//---------test end -----------
+
+
 
 // declare a new variable set to the value of document.quertySelectorAll('*[id]')
 // iterate through that variable
 
 
-async function populateNinja() {
-    const ninja = document.createElement('img');
-    ninja.setAttribute('id', 'ninja');
-    ninja.setAttribute('src', "https://media.istockphoto.com/vectors/simple-cute-ninja-mascot-design-vector-id1262756071?k=20&m=1262756071&s=170667a&w=0&h=JRnSjaWWiS1V7x2YJR8Y_C6KjicV2OTPNZkB4JMqzTY=");
-    //ninja.innerHTML = 'ninjago'
-    ninja.style.height = "20%"
-    document.querySelector('body').appendChild(ninja);
 
-    let divsArr = document.querySelectorAll("h1");
-    console.log(typeof divsArr)
-    let previousEl = divsArr[0];
-    console.log(previousEl)
-    for (let i = 0; i < divsArr.length; i++) {
-        const parent = divsArr[i].parentNode;
-        // console.log(parent)
-        console.log(document.getElementById('ninja'))
-        parent.replaceChild(document.getElementById('ninja'), divsArr[i]);
-        console.log(divsArr[i]);
-        divsArr[i].parentNode.removeChild(divsArr[i]);
-        console.log(divsArr[i]);
+// async function populateNinja() {
 
-        if (previousEl !== divsArr[0]) {
-            divsArr[i - 1] = previousEl;
-            previousEl = divsArr[i];
-        }
+    
+//         console.log(divsArr[i]);
         
-    }
+//         console.log(divsArr[i]);
+
+
+
+    
+//     console.log(typeof divsArr)
+//     let previousEl = divsArr[0];
+//     console.log(previousEl)
+//     for (let i = 0; i < divsArr.length; i++) {
+        
+//         // console.log(parent)
+//         console.log(document.getElementById('ninja'))
+//         if (previousEl !== divsArr[0]) {
+//             divsArr[i - 1] = previousEl;
+//             previousEl = divsArr[i];
+//         }
+
+    // }
+    
+
+
     
     // const ninja = document.createElement('video');
     // ninja.setAttribute('id', 'ninja');
@@ -63,9 +123,9 @@ async function populateNinja() {
     //             alert("doesn't work!");
     //       } finally {
     //         startButton.disabled = false;
-    //       }
-    //     });
-      };
+    // //       }
+    // //     });
+    //   };
 
 
 
